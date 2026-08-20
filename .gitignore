@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Upload user (foto & video, jangan di-commit)
+uploads/*
+!uploads/default.png
+!uploads/.gitkeep
+
+# Claude Code internal
+.claude/
+
+# Editor
+.vscode/
+.idea/

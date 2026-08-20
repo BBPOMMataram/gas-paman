@@ -1,0 +1,517 @@
+/* ============================================================
+   GAS-PAMAN — FUTURISTIC UI LAYER
+   Palet warna TIDAK diubah: tetap merah #991b1b, oranye #ea580c,
+   krem/putih — hanya visualisasi & kedalaman yang di-upgrade.
+   ============================================================ */
+
+:root {
+  --fx-red: #991b1b;
+  --fx-red-deep: #7f1d1d;
+  --fx-orange: #ea580c;
+  --fx-orange-soft: #fb923c;
+  --fx-glow-orange: rgba(234, 88, 12, 0.35);
+  --fx-glow-red: rgba(153, 27, 27, 0.28);
+}
+
+/* ---------- 1. Ambient background: aurora + grid futuristik ---------- */
+html {
+  background-color: #f8fafc;
+}
+body {
+  background-color: transparent !important;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(720px 440px at 88% -8%, rgba(234, 88, 12, 0.07), transparent 65%),
+    radial-gradient(820px 540px at -12% 108%, rgba(153, 27, 27, 0.06), transparent 65%),
+    radial-gradient(540px 340px at 50% 115%, rgba(251, 146, 60, 0.05), transparent 60%);
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(153, 27, 27, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(153, 27, 27, 0.035) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 25%, transparent 72%);
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 25%, transparent 72%);
+}
+
+/* ---------- 2. Kartu glass futuristik (auto-upgrade kartu standar) ---------- */
+[class*="rounded-[32px]"].bg-white,
+[class*="rounded-[40px]"].bg-white {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.94), rgba(255, 250, 246, 0.86)) !important;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-color: rgba(255, 255, 255, 0.65) !important;
+  box-shadow:
+    0 12px 36px -14px rgba(153, 27, 27, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 0 0 1px rgba(251, 146, 60, 0.10);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+[class*="rounded-[32px]"].bg-white:hover,
+[class*="rounded-[40px]"].bg-white:hover {
+  box-shadow:
+    0 22px 50px -16px rgba(153, 27, 27, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 0 0 1px rgba(251, 146, 60, 0.22),
+    0 0 42px -8px rgba(234, 88, 12, 0.16);
+}
+
+/* Kartu statistik: hover melayang + garis gradien atas menyala */
+.stat-card {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.94), rgba(255, 250, 246, 0.86)) !important;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-color: rgba(255, 255, 255, 0.65) !important;
+  box-shadow:
+    0 12px 36px -14px rgba(153, 27, 27, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 0 0 1px rgba(251, 146, 60, 0.10);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+.stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, #991b1b, #ea580c, #fb923c);
+  background-size: 200% auto;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  border-radius: 32px 32px 0 0;
+}
+.stat-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 26px 56px -18px rgba(153, 27, 27, 0.28),
+    0 0 0 1px rgba(251, 146, 60, 0.25),
+    0 0 48px -6px rgba(234, 88, 12, 0.22);
+}
+.stat-card:hover::before {
+  opacity: 1;
+  animation: fx-gradient-x 3s linear infinite;
+}
+
+/* Kartu kecil list (bg-white rounded-2xl/3xl) */
+[class*="rounded-2xl"].bg-white,
+[class*="rounded-3xl"].bg-white {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+[class*="rounded-2xl"].bg-white:hover,
+[class*="rounded-3xl"].bg-white:hover {
+  box-shadow: 0 14px 34px -14px rgba(153, 27, 27, 0.18), 0 0 0 1px rgba(251, 146, 60, 0.16);
+  transform: translateY(-2px);
+}
+
+/* ---------- 3. Tombol: sapuan cahaya (shine sweep) ---------- */
+a[class*="bg-red-800"], button[class*="bg-red-800"],
+a[class*="bg-red-700"], button[class*="bg-red-700"],
+a[class*="bg-orange-600"], button[class*="bg-orange-600"] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+a[class*="bg-red-800"]::after, button[class*="bg-red-800"]::after,
+a[class*="bg-red-700"]::after, button[class*="bg-red-700"]::after,
+a[class*="bg-orange-600"]::after, button[class*="bg-orange-600"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.55s ease;
+  pointer-events: none;
+}
+a[class*="bg-red-800"]:hover::after, button[class*="bg-red-800"]:hover::after,
+a[class*="bg-red-700"]:hover::after, button[class*="bg-red-700"]:hover::after,
+a[class*="bg-orange-600"]:hover::after, button[class*="bg-orange-600"]:hover::after {
+  left: 130%;
+}
+
+/* ---------- 4. Teks gradien animasi ---------- */
+.fx-text-gradient {
+  background: linear-gradient(100deg, #991b1b 0%, #ea580c 40%, #fb923c 62%, #ea580c 85%, #991b1b 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: fx-gradient-x 7s linear infinite;
+}
+@keyframes fx-gradient-x {
+  to { background-position: 220% center; }
+}
+
+/* ---------- 5. Reveal saat scroll + counter ---------- */
+html.fx-js [data-fx-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html.fx-js [data-fx-reveal].fx-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- 6. Auth pages: aurora animasi ---------- */
+body.fx-auth::before {
+  background:
+    radial-gradient(560px 420px at 12% 8%, rgba(234, 88, 12, 0.16), transparent 62%),
+    radial-gradient(640px 480px at 88% 92%, rgba(153, 27, 27, 0.14), transparent 62%),
+    radial-gradient(420px 300px at 70% 12%, rgba(251, 146, 60, 0.10), transparent 60%);
+  animation: fx-auth-drift 16s ease-in-out infinite alternate;
+}
+body.fx-auth::after {
+  opacity: 0.55;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 30%, transparent 80%);
+}
+@keyframes fx-auth-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(2%, -2%, 0) scale(1.05); }
+  100% { transform: translate3d(-2%, 2%, 0) scale(1.02); }
+}
+body.fx-auth .fx-auth-panel {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 246, 0.92)) !important;
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 30px 80px -24px rgba(153, 27, 27, 0.30),
+    0 0 60px -18px rgba(234, 88, 12, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+body.fx-auth input {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+body.fx-auth input:focus {
+  box-shadow: 0 0 0 5px rgba(234, 88, 12, 0.10), 0 8px 24px -10px rgba(234, 88, 12, 0.25) !important;
+}
+
+/* ---------- 7. Sidebar glass ---------- */
+#mainSidebar {
+  background: linear-gradient(185deg, rgba(153, 27, 27, 0.97), rgba(127, 29, 29, 0.98)) !important;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(251, 146, 60, 0.16);
+  box-shadow:
+    0 24px 70px -20px rgba(153, 27, 27, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+#mainSidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(340px 200px at 15% -5%, rgba(234, 88, 12, 0.28), transparent 70%),
+    radial-gradient(300px 260px at 110% 108%, rgba(251, 146, 60, 0.16), transparent 70%);
+}
+#mainSidebar nav a {
+  position: relative;
+  overflow: hidden;
+}
+#mainSidebar nav a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(234, 88, 12, 0.18), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#mainSidebar nav a:hover::before {
+  opacity: 1;
+}
+#mainSidebar nav a.fx-nav-active {
+  box-shadow: 0 10px 26px -10px rgba(0, 0, 0, 0.55), 0 0 24px -4px rgba(234, 88, 12, 0.35);
+}
+.fx-nav-icon {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
+}
+#mainSidebar nav a:hover .fx-nav-icon {
+  transform: scale(1.08) rotate(-4deg);
+}
+.fx-logo-halo {
+  animation: fx-halo 4.5s ease-in-out infinite;
+}
+@keyframes fx-halo {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50%      { opacity: 0.42; transform: scale(1.12); }
+}
+
+/* ---------- 8. SweetAlert2 futuristik ---------- */
+.swal2-popup {
+  border-radius: 30px !important;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.97), rgba(255, 250, 246, 0.94)) !important;
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+  box-shadow: 0 34px 90px -24px rgba(153, 27, 27, 0.35) !important;
+  border: 1px solid rgba(251, 146, 60, 0.14);
+}
+.swal2-confirm {
+  border-radius: 16px !important;
+  box-shadow: 0 12px 28px -10px rgba(234, 88, 12, 0.55) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+.swal2-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px -10px rgba(234, 88, 12, 0.65) !important;
+}
+.swal2-cancel {
+  border-radius: 16px !important;
+}
+
+/* ---------- 9. Scrollbar futuristik ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ea580c, #991b1b);
+  border-radius: 999px;
+  border: 2px solid #fff8f5;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fb923c, #b91c1c);
+}
+
+/* ---------- 10. Detail kecil ---------- */
+::selection {
+  background: rgba(234, 88, 12, 0.25);
+  color: #7f1d1d;
+}
+
+/* ---------- 11. Beam border: cahaya oranye berputar mengelilingi kartu ---------- */
+@property --fx-beam-a {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.fx-beam { position: relative; }
+.fx-beam > .fx-beam-border {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--fx-beam-a, 0deg),
+    rgba(234, 88, 12, 0) 0deg,
+    rgba(234, 88, 12, 0.95) 50deg,
+    rgba(251, 146, 60, 0.85) 90deg,
+    rgba(234, 88, 12, 0) 140deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: fx-beam-spin 5s linear infinite;
+}
+@keyframes fx-beam-spin {
+  to { --fx-beam-a: 360deg; }
+}
+
+/* ---------- 12. Judul seksi dengan garis gradien animasi ---------- */
+.fx-section-title {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+}
+.fx-section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #991b1b, #ea580c, #fb923c);
+  background-size: 200% auto;
+  animation: fx-gradient-x 4s linear infinite;
+}
+.fx-icon-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, #991b1b, #ea580c);
+  box-shadow: 0 8px 18px -6px rgba(234, 88, 12, 0.45);
+  flex-shrink: 0;
+}
+
+/* ---------- 13. Tabel futuristik ---------- */
+main table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+main thead th {
+  background: rgba(255, 247, 242, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  font-weight: 800;
+  color: #9ca3af;
+  border-bottom: 2px solid rgba(234, 88, 12, 0.16);
+  padding: 13px 16px;
+  white-space: nowrap;
+}
+main tbody tr {
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+main tbody tr:hover {
+  background: rgba(251, 146, 60, 0.07);
+}
+main tbody td {
+  border-bottom: 1px solid rgba(243, 244, 246, 0.9);
+}
+
+/* ---------- 14. Animasi masuk halaman ---------- */
+main {
+  animation: fx-page-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes fx-page-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- 15. Progress bar statistik ---------- */
+.fx-bar {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(243, 244, 246, 0.9);
+  overflow: hidden;
+}
+.fx-bar > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #991b1b, #ea580c, #fb923c);
+  transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fx-bar > i::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 26px;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+  animation: fx-bar-shimmer 2.2s linear infinite;
+}
+@keyframes fx-bar-shimmer {
+  from { transform: translateX(-60px); }
+  to   { transform: translateX(220px); }
+}
+/* Lebar diisi JS saat reveal; fallback tanpa JS pakai nilai inline */
+html:not(.fx-js) .fx-bar > i { width: var(--fx-bar-w, 60%); }
+
+/* ---------- 16. Angka statistik gradien ---------- */
+.fx-stat-num {
+  background: linear-gradient(120deg, #7f1d1d 10%, #ea580c 55%, #fb923c 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------- 17. Banner agen: sapuan cahaya pemindai ---------- */
+.norm-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: skewX(-20deg);
+  animation: fx-scan 5.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 6;
+}
+@keyframes fx-scan {
+  0%        { left: -25%; }
+  55%, 100% { left: 125%; }
+}
+
+/* ---------- 18. Input & select: hover + fokus glow global ---------- */
+main input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+main select,
+main textarea {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+main input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):hover,
+main select:hover,
+main textarea:hover {
+  border-color: rgba(234, 88, 12, 0.35);
+}
+main input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):focus,
+main select:focus,
+main textarea:focus {
+  box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.10), 0 10px 26px -14px rgba(234, 88, 12, 0.30);
+}
+
+/* ---------- 19. Tabel rekap edukasi (log laporan: layar + cetak) ---------- */
+.rekap-table { width: 100%; border-collapse: collapse; background: #fff; font-family: 'Plus Jakarta Sans', sans-serif; }
+.rekap-table th, .rekap-table td { border: 1px solid #e5e7eb; padding: 8px 10px; font-size: 12px; vertical-align: middle; text-align: left; }
+.rekap-table thead th { background: #f9fafb; color: #6b7280; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+.rekap-table tbody tr:nth-child(even) { background: #fafafa; }
+.rekap-table .rekap-foto { display: flex; gap: 4px; flex-wrap: wrap; }
+.rekap-table .rekap-foto img { width: 64px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid #e5e7eb; }
+.rekap-table .rekap-video { display: inline-block; padding: 2px 8px; border-radius: 6px; background: #eef2ff; color: #4f46e5; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+.rekap-table .rekap-pill { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+.rekap-pill-approved { background: #dcfce7; color: #15803d; }
+.rekap-pill-revisi   { background: #fee2e2; color: #b91c1c; }
+.rekap-pill-draft    { background: #dbeafe; color: #1d4ed8; }
+.rekap-pill-pending  { background: #ffedd5; color: #c2410c; }
+.rekap-table .rekap-btn-hapus { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 10px; border: 1px solid #fee2e2; background: #fef2f2; color: #b91c1c; font-size: 13px; cursor: pointer; transition: all .15s ease; }
+.rekap-table .rekap-btn-hapus:hover { background: #991b1b; border-color: #991b1b; color: #fff; }
+
+/* ---------- 20. Aksi export & unduhan bukti ---------- */
+.export-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px; padding: 7px; border: 1px solid #ffedd5; border-radius: 17px; background: linear-gradient(135deg, #fff7ed, #fffbeb); box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 8px 20px -18px rgba(194, 65, 12, .9); }
+.export-button { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 11px 16px; border: 1px solid rgba(255, 237, 213, .72); border-radius: 12px; background: linear-gradient(115deg, #ea580c 0%, #f97316 42%, #fbbf24 100%); background-size: 180% 180%; color: #fff; font-size: 10px; font-weight: 800; line-height: 1; letter-spacing: .1em; text-shadow: 0 1px 1px rgba(124, 45, 18, .32); text-transform: uppercase; box-shadow: 0 10px 22px -12px rgba(234, 88, 12, .95), inset 0 1px 0 rgba(255, 255, 255, .34); transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease; animation: export-gradient-flow 5s ease-in-out infinite; }
+.export-button::before { content: ''; position: absolute; z-index: -1; top: -55%; left: -42%; width: 28%; height: 220%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .72), transparent); transform: skewX(-22deg); animation: export-shine-run 3.2s ease-in-out infinite; }
+.export-button::after { content: ''; position: absolute; z-index: -1; inset: 1px; border-radius: 10px; background: linear-gradient(120deg, rgba(255, 255, 255, .16), transparent 48%); pointer-events: none; }
+.export-button:hover { border-color: rgba(255, 255, 255, .9); box-shadow: 0 15px 28px -11px rgba(234, 88, 12, .95), 0 0 0 4px rgba(251, 191, 36, .16), inset 0 1px 0 rgba(255, 255, 255, .42); transform: translateY(-2px); }
+.export-button:active { transform: translateY(0); }
+.export-button i, .export-button span { position: relative; z-index: 1; }
+.export-button-excel, .export-button-print { background: linear-gradient(115deg, #ea580c 0%, #f97316 42%, #fbbf24 100%); }
+@keyframes export-gradient-flow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes export-shine-run { 0%, 22% { left: -42%; } 52%, 100% { left: 128%; } }
+.report-proof-list { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 122px; }
+.report-proof-download { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px 4px 4px; border: 1px solid #fed7aa; border-radius: 8px; background: #fff7ed; color: #c2410c; font-size: 9px; font-weight: 800; line-height: 1; white-space: nowrap; transition: background .15s ease, color .15s ease; }
+.report-proof-download:hover { background: #ea580c; border-color: #ea580c; color: #fff; }
+.report-proof-download img { width: 38px; height: 30px; border-radius: 5px; object-fit: cover; border: 1px solid rgba(194, 65, 12, .18); }
+.report-proof-download i:last-child { font-size: 8px; }
+@media (max-width: 640px) {
+  .export-actions { justify-content: flex-start; }
+  .export-button { flex: 1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .export-button, .export-button::before { animation: none; }
+}
